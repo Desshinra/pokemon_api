@@ -1,10 +1,13 @@
 :<script setup>
 import { useRoute, useRouter } from "vue-router";
-import {useGetData} from '@/composables/getData'
+import { useGetData } from '@/composables/getData'
+import { useFavoritosStore } from "@/store/favoritos";
 
 const route = useRoute();
 const router = useRouter();
+const useFavoritos = useFavoritosStore();
 
+const {add} = useFavoritos
 const { getData, data, loading, dataError } = useGetData();
 
 getData(`https://pokeapi.co/api/v2/pokemon/${route.params.name}`)
@@ -21,7 +24,14 @@ getData(`https://pokeapi.co/api/v2/pokemon/${route.params.name}`)
             <li class="list-group-item"><strong>Weight:</strong>{{ data.weight }}</li>
             <li class="list-group-item"><strong>Pokedex #</strong>{{ data.order }}</li>
         </ul>
+        <router-link to="/favoritos"
+                    @click="add(data)"
+                    class="btn btn-outline-primary mb-2">
+            Agregar Favoritos +
+        </router-link>
     </div>
     <router-link to="/pokemons"
-    class="btn btn-outline-primary">Volver</router-link>
+                class="btn btn-outline-primary">
+        Volver
+    </router-link>
 </template>
