@@ -7,7 +7,7 @@ const route = useRoute();
 const router = useRouter();
 const useFavoritos = useFavoritosStore();
 
-const {add} = useFavoritos
+const {add, findPokemon} = useFavoritos
 const { getData, data, loading, dataError } = useGetData();
 
 getData(`https://pokeapi.co/api/v2/pokemon/${route.params.name}`)
@@ -24,11 +24,11 @@ getData(`https://pokeapi.co/api/v2/pokemon/${route.params.name}`)
             <li class="list-group-item"><strong>Weight:</strong>{{ data.weight }}</li>
             <li class="list-group-item"><strong>Pokedex #</strong>{{ data.order }}</li>
         </ul>
-        <router-link to="/favoritos"
-                    @click="add(data)"
+        <button     @click="add(data)"
+                    :disabled="findPokemon(data.name)"
                     class="btn btn-outline-primary mb-2">
             Agregar Favoritos +
-        </router-link>
+        </button>
     </div>
     <router-link to="/pokemons"
                 class="btn btn-outline-primary">
